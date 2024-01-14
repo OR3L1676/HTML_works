@@ -1,0 +1,15 @@
+.listGroup {
+    list-style: none;
+    display: inline-block;
+    padding: 10px;
+    margin-left: 10px;
+    background: fixed yellow;
+    border-radius: 15px;
+    
+}
+
+.container {
+    display: block;
+    width: 8rem;
+    overflow: hidden;
+}
