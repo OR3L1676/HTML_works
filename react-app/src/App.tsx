@@ -19,12 +19,14 @@ import FormRef from "./assets/components2/FormRef";
 import FormState from "./assets/components2/FormState";
 import FormHook from "./assets/components2/FormHook";
 import FormZod from "./assets/components2/FormZod";
-import Project_1_1 from "./expense-tracker/components/Project_1_1";
-import Project_1_2 from "./expense-tracker/components/Project_1_2";
 import ExpenseList from "./expense-tracker/components/ExpenseList";
 import ExpenseFilter from "./expense-tracker/components/ExpenseFilter";
 import ExpenseForm from "./expense-tracker/components/ExpenseForm";
 import categories from "./expense-tracker/components/categories";
+import Lesson1 from "./assets/backend/lesson1";
+import ProductList from "./assets/backend/ProductList";
+import CategoryClick from "./assets/backend/CategoryClick";
+import RequesAxios from "./assets/backend/RequesAxios";
 
 function App() {
   let items = [
@@ -83,7 +85,7 @@ function App() {
       {/* <FormZod /> */}
       {/* <Project_1_1 />
       <Project_1_2 /> */}
-      <div className="mb-5">
+      {/* <div className="mb-5">
         <ExpenseForm
           onSubmit={(expese) =>
             setExpenses([...expenses, { ...expese, id: expenses.length + 1 }])
@@ -98,7 +100,11 @@ function App() {
       <ExpenseList
         expenses={visibleExpenses}
         onDelete={(id) => setExpenses(expenses.filter((e) => e.id !== id))}
-      />
+      /> */}
+      {/* <Lesson1 /> */}
+      {/* <CategoryClick />
+      <ProductList category={"counter hooooo"} /> */}
+      <RequesAxios />
     </>
   );
 }
