@@ -1,38 +1,19 @@
 import React, { useEffect, useState } from "react";
-import apiClient, { CanceledError } from "../../services/api-client";
+import { CanceledError } from "../../services/api-client";
 import userService, { User } from "../../services/user-services";
+import useUsers from "../../hooks/useUsers";
 
 const RequesAxios = () => {
-  const [users, setUsers] = useState<User[]>([]);
-  const [error, setError] = useState("");
-  const [isLoading, setLoading] = useState(false);
-  const [stack, setStack] = useState<User[]>([]);
-
-  useEffect(() => {
-    setLoading(true);
-
-    const { request, cancel } = userService.getAllUsers();
-    request
-      .then((res) => {
-        setUsers(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        if (err instanceof CanceledError) return;
-        setError(err.message);
-
-        setLoading(false);
-      });
-    return () => cancel();
-  }, []);
+  // here
+  const { users, error, isLoading, stack, setUsers, setError, setStack } =
+    useUsers();
 
   const deleteUser = (user: User) => {
     const newStack = [...stack, user];
     const originalUsers = [...users];
     setUsers(users.filter((u) => u.id !== user.id));
     setStack(newStack);
-    apiClient.delete("/users/" + user.id).catch((err) => {
+    userService.delete(user.id).catch((err) => {
       setError(err.message);
       setUsers(originalUsers);
       setStack(stack); // Reset the stack to its original state
@@ -45,8 +26,8 @@ const RequesAxios = () => {
     const originalUsers = [...users];
 
     setUsers([newUser, ...users]);
-    apiClient
-      .post("/users", newUser)
+    userService
+      .create(newUser)
       .then((res) => {
         setUsers([res.data, ...users]);
         console.log("hey i am res ", res.data);
@@ -65,8 +46,8 @@ const RequesAxios = () => {
       setUsers([...users, newUser]);
 
       // Note: It's not clear why you're making another POST request here, you might want to adjust this part accordingly
-      apiClient
-        .post("/users", newUser)
+      userService
+        .reverseAct(newUser)
         .then((res) => setUsers([res.data, ...users]))
         .catch((err) => {
           setError(err);
@@ -79,7 +60,7 @@ const RequesAxios = () => {
     const updatedUser = { ...user, name: user.name + "!" };
     const originalUsers = [...users];
     setUsers(users.map((u) => (u.id === user.id ? updatedUser : u)));
-    apiClient.patch("/users/" + user.id, updatedUser).catch((err) => {
+    userService.update(updatedUser).catch((err) => {
       setError(err);
       setUsers(originalUsers);
     });
